@@ -1,4 +1,4 @@
-# spartans_eatup
+# Spartans Eatup
 
 We should have started this earlier
 
