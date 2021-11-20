@@ -3,6 +3,7 @@ import 'package:spartans_eatup/main.dart';
 import 'package:spartans_eatup/src/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spartans_eatup/src/restaurant_login.dart';
 import 'package:spartans_eatup/src/student_registration_page.dart';
 
 class StudentLoginPage extends State<MyApp> {
@@ -116,6 +117,15 @@ class StudentLoginPage extends State<MyApp> {
                                   StudentRegistrationPage().build(context)));
                         },
                         child: Text("Go to Register"),
+                      ),
+                       GestureDetector(
+                        onTap: () {
+                          //StudentLoginPage().deactivate();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  RestaurantLogin().build(context)));
+                        },
+                        child: Text("Restaurant Login"),
                       )
                     ])))));
   }
