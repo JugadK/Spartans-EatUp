@@ -21,7 +21,5 @@ class Order {
     return Order(name: name, price: price);
   }
 
-  Map<String, dynamic> toJson() {
-    return {'name': name, 'price': price};
-  }
+  Map<String, dynamic> toJson() => {'name': name, 'price': price};
 }
