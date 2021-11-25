@@ -44,8 +44,8 @@ class RestaurantLogin extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     if (isLoggedInRestaurant == true) {
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => HomePage().build(context)));
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => RestaurantDashboard().build(context)));
     }
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
