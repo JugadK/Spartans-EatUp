@@ -32,12 +32,15 @@ class StudentRegistrationPage extends State<MyApp> {
           FirebaseFirestore.instance.collection('students');
 
       // Call the user's CollectionReference to add a new user
-      // Student(email: email, orderList: OrderList(orders: [])).toJson()
+      //students.add(Student(email: email, orders: []).toJson());
       await students
-          .add(Student(email: email, orders: []).toJson())
+          .doc(
+            FirebaseAuth.instance.currentUser!.uid.toString(),
+          )
+          .set(Student(email: email, orders: []).toJson())
           .catchError((error) => print("Failed to add user: $error"));
 
-      Navigator.pop(context);
+      //Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
