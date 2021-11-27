@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:spartans_eatup/src/models/order.dart';
 import 'package:spartans_eatup/src/models/order_list.dart';
 import 'package:spartans_eatup/src/models/restaurant.dart';
@@ -8,8 +9,13 @@ void main() {
     Restaurant panda_express = Restaurant(
         email: "panda@panda.com",
         name: "Panda Express",
-        currentOrders: [
-          OrderList(orders: [Order(name: "food", price: 22)])
+        currentOrderUsers: [
+          OrderList(orders: [
+            Order(
+                name: "food",
+                price: Decimal.parse("22.00"),
+                restaurant: "Panda Express")
+          ])
         ]);
     test("has correct email value", () {
       expect(panda_express.email, "panda@panda.com");
@@ -18,8 +24,9 @@ void main() {
       expect(panda_express.name, "Panda Express");
     });
     test("has correct currentOrder value", () {
-      expect(panda_express.currentOrders[0].orders[0].name, "food");
-      expect(panda_express.currentOrders[0].orders[0].price, 22);
+      expect(panda_express.currentOrderUsers[0].orders[0].name, "food");
+      expect(panda_express.currentOrderUsers[0].orders[0].price,
+          Decimal.parse("22.00"));
     });
   });
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:decimal/decimal.dart';
+import 'package:spartans_eatup/src/models/restaurant.dart';
 
 class Order {
   String name;
@@ -7,19 +9,22 @@ class Order {
   // at figuring out base 10 decimals :( , we have to later on convert it back
   // to a decimal
 
-  int price;
+  Decimal price;
 
-  Order({
-    required this.name,
-    required this.price,
-  });
+  String restaurant;
 
-  Order fromJson(Map<String, Object?> json) {
-    name = json['name']! as String;
-    price = json['price']! as int;
+  Order({required this.name, required this.price, required this.restaurant});
 
-    return Order(name: name, price: price);
+  String toString() {
+    return name + " " + price.toString();
   }
 
-  Map<String, dynamic> toJson() => {'name': name, 'price': price};
+  Order.fromJson(Map<String, dynamic> json)
+      : this(
+            name: json['name']! as String,
+            price: Decimal.parse(json['price'].toString()),
+            restaurant: json['restaurant']! as String);
+
+  Map<String, dynamic> toJson() =>
+      {'name': name, 'price': price.toJson(), 'restaurant': restaurant};
 }
