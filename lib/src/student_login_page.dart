@@ -20,10 +20,7 @@ class StudentLoginPage extends State<MyApp> {
         password: loginPasswordController.text,
       );
 
-      // changes page too Homepage is user logs in succesfully
-      //StudentLoginPage().dispose();
-      //StudentRegistrationPage().dispose();
-
+      // Home page when login is succesful
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => HomePage().build(context)));
     } on FirebaseAuthException catch (e) {
@@ -36,14 +33,13 @@ class StudentLoginPage extends State<MyApp> {
   }
 
   static final _loginFormKey = GlobalKey<FormState>();
-  
+
   @override
   Widget build(BuildContext context) {
-    
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-  //Code modified from from https://docs.flutter.dev/cookbook/forms/validation
+    //Code modified from from https://docs.flutter.dev/cookbook/forms/validation
     return Scaffold(
         backgroundColor: Colors.blue[900],
         body: Center(
@@ -118,7 +114,8 @@ class StudentLoginPage extends State<MyApp> {
                         },
                         child: Text("Go to Register"),
                       ),
-                       GestureDetector(
+                      GestureDetector(
+
                         onTap: () {
                           //StudentLoginPage().deactivate();
                           Navigator.of(context).push(MaterialPageRoute(

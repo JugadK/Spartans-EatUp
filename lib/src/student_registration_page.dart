@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spartans_eatup/main.dart';
+import 'package:spartans_eatup/src/models/order.dart';
+import 'package:spartans_eatup/src/models/order_list.dart';
+import 'package:spartans_eatup/src/models/student.dart';
 import 'package:spartans_eatup/src/student_login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,32 +17,30 @@ class StudentRegistrationPage extends State<MyApp> {
   static TextEditingController registrationPasswordController =
       TextEditingController();
 
- 
-
   Future<void> registerUser() async {
-
     String email = registrationEmailController.text;
     try {
-
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: registrationPasswordController.text,
       );
 
+      User? user = userCredential.user;
 
-      CollectionReference users = FirebaseFirestore.instance.collection('users');
-    
-    // Call the user's CollectionReference to add a new user
-      users
-        .add({
-          'email': email, 
-        })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
-  
+      CollectionReference students =
+          FirebaseFirestore.instance.collection('students');
 
-      Navigator.pop(context);
+      // Call the user's CollectionReference to add a new user
+      //students.add(Student(email: email, orders: []).toJson());
+      await students
+          .doc(
+            FirebaseAuth.instance.currentUser!.uid.toString(),
+          )
+          .set(Student(email: email, orders: []).toJson())
+          .catchError((error) => print("Failed to add user: $error"));
+
+      //Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
