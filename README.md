@@ -22,6 +22,13 @@ and it should run fine
 ## Android Studio
 
 Idk fuck around with the UI
+If anyone uses this please update the README
+
+# Test restaurant login info
+  email : amogus@food.com
+  password : food123!
+  
+  Yes I did just play a game of among us before making this 
 
 # More flutter information
 

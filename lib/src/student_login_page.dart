@@ -115,6 +115,7 @@ class StudentLoginPage extends State<MyApp> {
                         child: Text("Go to Register"),
                       ),
                       GestureDetector(
+
                         onTap: () {
                           //StudentLoginPage().deactivate();
                           Navigator.of(context).push(MaterialPageRoute(
