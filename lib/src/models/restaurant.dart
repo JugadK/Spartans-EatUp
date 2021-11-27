@@ -4,23 +4,24 @@ import 'package:spartans_eatup/src/models/order_list.dart';
 class Restaurant {
   String email;
   String name;
-  List<OrderList> currentOrders;
+  List<String> currentOrderUsers;
 
   Restaurant({
     required this.email,
     required this.name,
-    required this.currentOrders,
+    required this.currentOrderUsers,
   });
 
-  Restaurant fromJson(Map<String, Object?> json) {
-    name = json['name']! as String;
-    email = json['email']! as String;
-    currentOrders = json['currentorders'] as List<OrderList>;
+  factory Restaurant.fromJson(Map<String, dynamic?> json) {
+    String name = json['name']! as String;
+    String email = json['email']! as String;
+    List<String> currentOrderUsers = List.from(json['currentOrderUsers']);
 
-    return Restaurant(email: email, name: name, currentOrders: currentOrders);
+    return Restaurant(
+        email: email, name: name, currentOrderUsers: currentOrderUsers);
   }
 
   Map<String, dynamic> toJson() {
-    return {'name': name, 'email': email, 'currentOrders': currentOrders};
+    return {'name': name, 'email': email, 'current': currentOrderUsers};
   }
 }
