@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spartans_eat_up/login.dart';
-import 'package:spartans_eat_up/navbar.dart';
-import 'package:spartans_eat_up/restaurant_main.dart';
+import 'package:spartans_eatup/src/login.dart';
+import 'package:spartans_eatup/src/navbar.dart';
+import 'package:spartans_eatup/src/restaurant_main.dart';
 import 'colors.dart' as color;
 
 class RestaurantLogin extends StatefulWidget {

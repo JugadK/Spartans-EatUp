@@ -8,7 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class StudentRegistrationPage extends State<MyApp> {
+/*class StudentRegistrationPage extends State<MyApp> {
   static final _registerFormKey = GlobalKey<FormState>();
 
   // Used in order to read values from Registration Form
@@ -138,4 +138,4 @@ class StudentRegistrationPage extends State<MyApp> {
                       )
                     ])))));
   }
-}
+} */

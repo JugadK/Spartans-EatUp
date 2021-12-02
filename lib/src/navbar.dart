@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spartans_eat_up/home_page.dart';
-import 'package:spartans_eat_up/mybag.dart';
-import 'package:spartans_eat_up/search_page.dart';
+import 'package:spartans_eatup/src/home_page.dart';
+import 'package:spartans_eatup/src/mybag.dart';
+import 'package:spartans_eatup/src/search_page.dart';
 import 'colors.dart' as color;
 
 class NavBar extends StatefulWidget {

@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spartans_eat_up/account_info.dart';
+import 'package:spartans_eatup/src/account_info.dart';
 import 'colors.dart' as color;
 
 class HomePage extends StatefulWidget {

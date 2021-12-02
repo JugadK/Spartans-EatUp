@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spartans_eat_up/constants.dart';
+import 'package:spartans_eatup/src/constants.dart';
 import 'colors.dart' as color;
 
 class SearchPage extends StatefulWidget {

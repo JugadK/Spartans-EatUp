@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spartans_eatup/src/restaurant_login.dart';
 import 'package:spartans_eatup/src/student_registration_page.dart';
 
-class StudentLoginPage extends State<MyApp> {
+/*class StudentLoginPage extends State<MyApp> {
   // Used in order to read values from Registration Form
   static TextEditingController loginEmailController = TextEditingController();
   static TextEditingController loginPasswordController =
@@ -126,4 +126,4 @@ class StudentLoginPage extends State<MyApp> {
                       )
                     ])))));
   }
-}
+}*/

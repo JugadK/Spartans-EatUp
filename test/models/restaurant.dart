@@ -3,7 +3,7 @@ import 'package:spartans_eatup/src/models/order.dart';
 import 'package:spartans_eatup/src/models/order_list.dart';
 import 'package:spartans_eatup/src/models/restaurant.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+/*
 void main() {
   group('Restaurant', () {
     Restaurant panda_express = Restaurant(
@@ -30,3 +30,4 @@ void main() {
     });
   });
 }
+*/

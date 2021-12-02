@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spartans_eat_up/constants.dart';
-import 'package:spartans_eat_up/home_page.dart';
-import 'package:spartans_eat_up/navbar.dart';
-import 'package:spartans_eat_up/restaurant_login.dart';
+import 'package:spartans_eatup/src/constants.dart';
+import 'package:spartans_eatup/src/home_page.dart';
+import 'package:spartans_eatup/src/navbar.dart';
+import 'package:spartans_eatup/src/restaurant_login.dart';
 import 'colors.dart' as color;
 
 class RestaurantMain extends StatefulWidget {
