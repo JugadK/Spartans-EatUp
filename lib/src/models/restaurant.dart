@@ -6,22 +6,23 @@ class Restaurant {
   String email;
   String name;
   List<String> currentOrderUsers;
-  List<Order> menu;
 
-  Restaurant(
-      {required this.email,
-      required this.name,
-      required this.currentOrderUsers,
-      required this.menu});
+  Restaurant({
+    required this.email,
+    required this.name,
+    required this.currentOrderUsers,
+  });
 
   factory Restaurant.fromJson(Map<String, dynamic?> json) {
     String name = json['name']! as String;
     String email = json['email']! as String;
     List<String> currentOrderUsers = List.from(json['currentOrderUsers']);
-    List<String> Menu = List.from(json['currentOrderUsers']);
 
     return Restaurant(
-        email: email, name: name, currentOrderUsers: currentOrderUsers);
+      email: email,
+      name: name,
+      currentOrderUsers: currentOrderUsers,
+    );
   }
 
   Map<String, dynamic> toJson() {
