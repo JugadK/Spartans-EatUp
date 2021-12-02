@@ -1,18 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spartans_eat_up/login.dart';
 import 'package:spartans_eat_up/navbar.dart';
-import 'package:spartans_eat_up/restaurant_main.dart';
+import 'package:spartans_eat_up/restaurant_login.dart';
 import 'colors.dart' as color;
 
-class RestaurantLogin extends StatefulWidget {
-  const RestaurantLogin({Key? key}) : super(key: key);
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
-  _RLoginState createState() => _RLoginState();
+  _LoginState createState() => _LoginState();
 }
 
-class _RLoginState extends State<RestaurantLogin> {
+class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,13 +34,13 @@ class _RLoginState extends State<RestaurantLogin> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const Login(),
+                        builder: (context) => const RestaurantLogin(),
                         fullscreenDialog: true));
               },
               child: Container(
-                padding: const EdgeInsets.only(right: 200),
+                padding: const EdgeInsets.only(left: 200),
                 child: const Text(
-                  "Back to student view",
+                  " I'm a Restaurant",
                   style: TextStyle(
                     fontSize: 15,
                     color: Color(0xff000000),
@@ -81,11 +80,15 @@ class _RLoginState extends State<RestaurantLogin> {
                 children: [
                   TextFormField(
                     decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Enter restaurant code"),
+                        border: OutlineInputBorder(), labelText: "Student ID"),
                   ),
                   const SizedBox(
                     height: 10,
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), labelText: "Password"),
+                    obscureText: true,
                   ),
                 ],
               ),
@@ -98,7 +101,7 @@ class _RLoginState extends State<RestaurantLogin> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const RestaurantMain(),
+                        builder: (context) => const NavBar(),
                         fullscreenDialog: true));
               },
               child: Container(
@@ -118,7 +121,7 @@ class _RLoginState extends State<RestaurantLogin> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
-                        "               Go               ",
+                        "         Get Started         ",
                         style: TextStyle(
                           fontSize: 18,
                           color: Color(0xffFFFFFF),
@@ -128,6 +131,23 @@ class _RLoginState extends State<RestaurantLogin> {
                   ),
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: const [
+                SizedBox(
+                  width: 100,
+                ),
+                Text(
+                  "Register your sjsu account",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Color(0xff000000),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
