@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spartans_eat_up/navbar.dart';
-import 'package:spartans_eat_up/restaurant_login.dart';
+import 'package:spartans_eatup/src/navbar.dart';
+import 'package:spartans_eatup/src/restaurant_login.dart';
 import 'colors.dart' as color;
 
 class Login extends StatefulWidget {
@@ -12,6 +12,11 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+   static TextEditingController loginEmailController = TextEditingController();
+  static TextEditingController loginPasswordController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,12 +85,13 @@ class _LoginState extends State<Login> {
                 children: [
                   TextFormField(
                     decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: "Student ID"),
+                        border: OutlineInputBorder(), labelText: "E-mail"),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   TextFormField(
+                    controller: ,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(), labelText: "Password"),
                     obscureText: true,
