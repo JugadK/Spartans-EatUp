@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:spartans_eatup/main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:spartans_eatup/src/models/restaurant.dart';
+import 'package:spartans_eatup/src/models/restaurant.dart';/*
 
 class RestaurantDashboard extends State<MyApp> {
   CollectionReference restaurants =
@@ -51,3 +51,4 @@ class RestaurantDashboard extends State<MyApp> {
     );
   }
 }
+*/

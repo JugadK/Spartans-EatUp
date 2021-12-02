@@ -1,23 +1,59 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spartans_eatup/src/login.dart';
 import 'package:spartans_eatup/src/navbar.dart';
-import 'package:spartans_eatup/src/restaurant_main.dart';
+import 'package:spartans_eatup/src/restaurant_login.dart';
+import 'package:spartans_eatup/main.dart';
+import 'package:spartans_eatup/src/home_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spartans_eatup/src/restaurant_login.dart';
+
 import 'colors.dart' as color;
 
-class RestaurantLogin extends StatefulWidget {
-  const RestaurantLogin({Key? key}) : super(key: key);
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
-  _RLoginState createState() => _RLoginState();
+  _LoginState createState() => _LoginState();
 }
 
-class _RLoginState extends State<RestaurantLogin> {
+class _LoginState extends State<Login> {
+  static final _loginFormKey = GlobalKey<FormState>();
+
+  // These Hold the values we will send to Firebase
+  static TextEditingController loginEmailController = TextEditingController();
+  static TextEditingController loginPasswordController =
+      TextEditingController();
+
+  Future<void> logInUser() async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: loginEmailController.text,
+        password: loginPasswordController.text,
+      );
+
+      // Home page when login is succesful
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const NavBar(), fullscreenDialog: true));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: color.AppColor.white,
       body: Center(
+          child: Form(
+        key: _loginFormKey,
         child: Column(
           children: [
             const SizedBox(
@@ -35,13 +71,13 @@ class _RLoginState extends State<RestaurantLogin> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const Login(),
+                        builder: (context) => const RestaurantLogin(),
                         fullscreenDialog: true));
               },
               child: Container(
-                padding: const EdgeInsets.only(right: 200),
+                padding: const EdgeInsets.only(left: 200),
                 child: const Text(
-                  "Back to student view",
+                  " I'm a Restaurant",
                   style: TextStyle(
                     fontSize: 15,
                     color: Color(0xff000000),
@@ -80,12 +116,18 @@ class _RLoginState extends State<RestaurantLogin> {
               child: Column(
                 children: [
                   TextFormField(
+                    controller: loginEmailController,
                     decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Enter restaurant code"),
+                        border: OutlineInputBorder(), labelText: "E-mail"),
                   ),
                   const SizedBox(
                     height: 10,
+                  ),
+                  TextFormField(
+                    controller: loginPasswordController,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), labelText: "Password"),
+                    obscureText: true,
                   ),
                 ],
               ),
@@ -95,11 +137,16 @@ class _RLoginState extends State<RestaurantLogin> {
             ),
             GestureDetector(
               onTap: () async {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const RestaurantMain(),
-                        fullscreenDialog: true));
+                // Validate returns true if the form is valid, or false otherwise.
+                if (_loginFormKey.currentState!.validate()) {
+                  logInUser();
+
+                  // If the form is valid, display a snackbar. In the real world,
+                  // you'd often call a server or save the information in a database.
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Processing Data')),
+                  );
+                }
               },
               child: Container(
                 padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -118,7 +165,7 @@ class _RLoginState extends State<RestaurantLogin> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
-                        "               Go               ",
+                        "         Get Started         ",
                         style: TextStyle(
                           fontSize: 18,
                           color: Color(0xffFFFFFF),
@@ -129,9 +176,26 @@ class _RLoginState extends State<RestaurantLogin> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: const [
+                SizedBox(
+                  width: 100,
+                ),
+                Text(
+                  "Register your sjsu account",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Color(0xff000000),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
-      ),
+      )),
     );
   }
 }
