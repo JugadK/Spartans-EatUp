@@ -2,6 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spartans_eatup/src/navbar.dart';
 import 'package:spartans_eatup/src/restaurant_login.dart';
+import 'package:spartans_eatup/main.dart';
+import 'package:spartans_eatup/src/home_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spartans_eatup/src/restaurant_login.dart';
+import 'package:spartans_eatup/src/student_registration_page.dart';
+
 import 'colors.dart' as color;
 
 class Login extends StatefulWidget {
@@ -12,16 +19,41 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  static final _loginFormKey = GlobalKey<FormState>();
 
-   static TextEditingController loginEmailController = TextEditingController();
+  static TextEditingController loginEmailController = TextEditingController();
   static TextEditingController loginPasswordController =
       TextEditingController();
+
+  Future<void> logInUser() async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: loginEmailController.text,
+        password: loginPasswordController.text,
+      );
+
+      // Home page when login is succesful
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const NavBar(), fullscreenDialog: true));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: color.AppColor.white,
       body: Center(
+          child: Form(
+        key: _loginFormKey,
         child: Column(
           children: [
             const SizedBox(
@@ -84,6 +116,7 @@ class _LoginState extends State<Login> {
               child: Column(
                 children: [
                   TextFormField(
+                    controller: loginEmailController,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(), labelText: "E-mail"),
                   ),
@@ -91,7 +124,7 @@ class _LoginState extends State<Login> {
                     height: 10,
                   ),
                   TextFormField(
-                    controller: ,
+                    controller: loginPasswordController,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(), labelText: "Password"),
                     obscureText: true,
@@ -104,11 +137,16 @@ class _LoginState extends State<Login> {
             ),
             GestureDetector(
               onTap: () async {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const NavBar(),
-                        fullscreenDialog: true));
+                // Validate returns true if the form is valid, or false otherwise.
+                if (_loginFormKey.currentState!.validate()) {
+                  logInUser();
+
+                  // If the form is valid, display a snackbar. In the real world,
+                  // you'd often call a server or save the information in a database.
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Processing Data')),
+                  );
+                }
               },
               child: Container(
                 padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -157,7 +195,7 @@ class _LoginState extends State<Login> {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 }
