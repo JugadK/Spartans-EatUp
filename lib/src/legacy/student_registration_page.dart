@@ -3,7 +3,6 @@ import 'package:spartans_eatup/main.dart';
 import 'package:spartans_eatup/src/models/order.dart';
 import 'package:spartans_eatup/src/models/order_list.dart';
 import 'package:spartans_eatup/src/models/student.dart';
-import 'package:spartans_eatup/src/student_login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

@@ -7,7 +7,6 @@ import 'package:spartans_eatup/src/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spartans_eatup/src/restaurant_login.dart';
-import 'package:spartans_eatup/src/student_registration_page.dart';
 
 import 'colors.dart' as color;
 
@@ -21,6 +20,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   static final _loginFormKey = GlobalKey<FormState>();
 
+  // These Hold the values we will send to Firebase
   static TextEditingController loginEmailController = TextEditingController();
   static TextEditingController loginPasswordController =
       TextEditingController();
