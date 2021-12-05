@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spartans_eatup/src/constants.dart';
@@ -11,12 +12,44 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  List<String> allRestaurants = [];
+  List<String> responseList = [];
+  CollectionReference restaurants =
+      FirebaseFirestore.instance.collection('restaurants');
   List<Widget> itemsData = [];
 
-  void getPostsData() {
-    List<dynamic> responseList = RESTAURANT_DATA;
+  void getPostData(String query) async {
+    responseList = [];
+    QuerySnapshot snapshot = await restaurants.get();
+    print(snapshot);
+    snapshot.docs.forEach((element) {
+      allRestaurants.add(element.get("name").toString());
+    });
+
+    filterPostData(query);
+  }
+
+  void filterPostData(String query) async {
+    responseList = [];
+
+    if (query == "") {
+      allRestaurants.forEach((element) {
+        responseList.add(element);
+      });
+    } else {
+      allRestaurants.forEach((element) {
+        String name = element;
+        // Checks if first few letters match any names in our db, checks for
+        // case insensitive
+        if (name.substring(0, query.length).toLowerCase() ==
+            query.toLowerCase()) {
+          responseList.add(element);
+        }
+      });
+    }
     List<Widget> listItems = [];
     responseList.forEach((post) {
+      listItems.add(const SizedBox(height: 10));
       listItems.add(
         Container(
             width: MediaQuery.of(context).size.width,
@@ -36,7 +69,7 @@ class _SearchPageState extends State<SearchPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    post["name"],
+                    post,
                     style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w700,
@@ -48,6 +81,7 @@ class _SearchPageState extends State<SearchPage> {
             )),
       );
     });
+
     setState(() {
       itemsData = listItems;
     });
@@ -55,30 +89,44 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (allRestaurants.isEmpty) {
+      getPostData("");
+    }
+
     return Scaffold(
         backgroundColor: color.AppColor.white,
         body: Container(
-          padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              SizedBox(
-                height: 15,
+            padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const Text(
+                    "Search",
+                    style: TextStyle(
+                      fontSize: 40,
+                      color: Color(0xffF6B92E),
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  CupertinoSearchTextField(
+                    onSubmitted: (value) {
+                      filterPostData(value);
+                    },
+                  ),
+                  Column(
+                    children: itemsData.map((e) {
+                      return e;
+                    }).toList(),
+                  )
+                ],
               ),
-              Text(
-                "Search",
-                style: TextStyle(
-                  fontSize: 40,
-                  color: Color(0xffF6B92E),
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              CupertinoSearchTextField(),
-            ],
-          ),
-        ));
+            )));
   }
 }
