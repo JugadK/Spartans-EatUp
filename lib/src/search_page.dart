@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:spartans_eatup/src/constants.dart';
 import 'colors.dart' as color;
 
@@ -15,16 +12,44 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  List<String> allRestaurants = [];
+  List<String> responseList = [];
   CollectionReference restaurants =
       FirebaseFirestore.instance.collection('restaurants');
-
-  List<String> restaurantNames = [];
   List<Widget> itemsData = [];
 
-  void getPostsData() {
-    List<dynamic> responseList = RESTAURANT_DATA;
+  void getPostData(String query) async {
+    responseList = [];
+    QuerySnapshot snapshot = await restaurants.get();
+    print(snapshot);
+    snapshot.docs.forEach((element) {
+      allRestaurants.add(element.get("name").toString());
+    });
+
+    filterPostData(query);
+  }
+
+  void filterPostData(String query) async {
+    responseList = [];
+
+    if (query == "") {
+      allRestaurants.forEach((element) {
+        responseList.add(element);
+      });
+    } else {
+      allRestaurants.forEach((element) {
+        String name = element;
+        // Checks if first few letters match any names in our db, checks for
+        // case insensitive
+        if (name.substring(0, query.length).toLowerCase() ==
+            query.toLowerCase()) {
+          responseList.add(element);
+        }
+      });
+    }
     List<Widget> listItems = [];
     responseList.forEach((post) {
+      listItems.add(const SizedBox(height: 10));
       listItems.add(
         Container(
             width: MediaQuery.of(context).size.width,
@@ -44,7 +69,7 @@ class _SearchPageState extends State<SearchPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    post["name"],
+                    post,
                     style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w700,
@@ -56,93 +81,52 @@ class _SearchPageState extends State<SearchPage> {
             )),
       );
     });
+
     setState(() {
-      print(itemsData);
       itemsData = listItems;
-    });
-  }
-
-  void getListData() async {
-    QuerySnapshot snapshot = await restaurants.get();
-    List<String> queryNames = [];
-
-    snapshot.docs.forEach((element) {
-      queryNames.add(element.get("name"));
-    });
-
-    setState(() {
-      restaurantNames = queryNames;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (allRestaurants.isEmpty) {
+      getPostData("");
+    }
+
     return Scaffold(
-      // This is handled by the search bar itself.
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          buildFloatingSearchBar(),
-        ],
-      ),
-    );
-  }
-
-  Widget buildFloatingSearchBar() {
-    final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
-
-    return FloatingSearchBar(
-      hint: 'Search...',
-      scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-      transitionDuration: const Duration(milliseconds: 800),
-      transitionCurve: Curves.easeInOut,
-      physics: const BouncingScrollPhysics(),
-      axisAlignment: isPortrait ? 0.0 : -1.0,
-      openAxisAlignment: 0.0,
-      width: isPortrait ? 600 : 500,
-      debounceDelay: const Duration(milliseconds: 500),
-      onQueryChanged: (query) {},
-      // Specify a custom transition to be used for
-      // animating between opened and closed stated.
-      transition: CircularFloatingSearchBarTransition(),
-      actions: [
-        FloatingSearchBarAction(
-          showIfOpened: false,
-          child: CircularButton(
-            icon: const Icon(Icons.food_bank),
-            onPressed: () {},
-          ),
-        ),
-        FloatingSearchBarAction.searchToClear(
-          showIfClosed: false,
-        ),
-      ],
-      builder: (context, transition) {
-        getListData();
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Material(
-            color: Colors.blueAccent,
-            elevation: 4.0,
-            child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: restaurantNames.map((e) {
-                  return Container(
-                    height: 60,
-                    color: Colors.blueAccent,
-                    child: Text(e),
-                  );
-                }).toList()
-
-                /* children: Colors.accents.map((color) {
-                return Container(height: 112, color: color);
-              }).toList(), */
-                ),
-          ),
-        );
-      },
-    );
+        backgroundColor: color.AppColor.white,
+        body: Container(
+            padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const Text(
+                    "Search",
+                    style: TextStyle(
+                      fontSize: 40,
+                      color: Color(0xffF6B92E),
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  CupertinoSearchTextField(
+                    onSubmitted: (value) {
+                      filterPostData(value);
+                    },
+                  ),
+                  Column(
+                    children: itemsData.map((e) {
+                      return e;
+                    }).toList(),
+                  )
+                ],
+              ),
+            )));
   }
 }
