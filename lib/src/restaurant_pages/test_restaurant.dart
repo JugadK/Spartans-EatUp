@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spartans_eatup/src/models/order.dart';
 import 'package:spartans_eatup/src/models/student.dart';
 
-class TestRestaurant extends State<MyApp> {
+/*class TestRestaurant extends State<MyApp> {
   CollectionReference students =
       FirebaseFirestore.instance.collection('students');
 
@@ -114,4 +114,4 @@ class TestRestaurant extends State<MyApp> {
       },
     );
   }
-}
+} */

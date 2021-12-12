@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:spartans_eatup/src/login.dart';
+import 'package:spartans_eatup/src/navbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:spartans_eatup/src/home_page.dart';
-import 'src/student_login_page.dart';
-import 'src/student_registration_page.dart';
+import 'src/navbar.dart';
 
 void main() async {
   //TODO Use future builder so that APP UI builds before Firebase initializes
@@ -27,11 +27,21 @@ void main() async {
     }
   });
 
-  runApp(MaterialApp(home: MyApp()));
+  runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
+  // This widget is the root of your application.
   @override
-  StudentLoginPage createState() => StudentLoginPage();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Spartans, Eat Up',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const Login(),
+    );
+  }
 }

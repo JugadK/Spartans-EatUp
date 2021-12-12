@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spartans_eatup/src/models/order.dart';
 import 'package:spartans_eatup/src/models/order_list.dart';
 
 class Restaurant {
@@ -18,7 +19,10 @@ class Restaurant {
     List<String> currentOrderUsers = List.from(json['currentOrderUsers']);
 
     return Restaurant(
-        email: email, name: name, currentOrderUsers: currentOrderUsers);
+      email: email,
+      name: name,
+      currentOrderUsers: currentOrderUsers,
+    );
   }
 
   Map<String, dynamic> toJson() {
