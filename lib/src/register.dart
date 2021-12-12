@@ -157,6 +157,12 @@ class _RegisterState extends State<Register> {
                     controller: firstNameEditingController,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(), labelText: "First Name"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please Enter First Name';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(
                     height: 10,
@@ -165,6 +171,12 @@ class _RegisterState extends State<Register> {
                     controller: lastNameEditingController,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(), labelText: "Last Name"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please Enter Last Name';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(
                     height: 10,
@@ -174,6 +186,12 @@ class _RegisterState extends State<Register> {
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "Phone Number"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please Enter Phone Number';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(
                     height: 10,
@@ -182,6 +200,12 @@ class _RegisterState extends State<Register> {
                     controller: registrationEmailController,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(), labelText: "E-mail"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please Enter Email';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(
                     height: 10,
@@ -191,6 +215,12 @@ class _RegisterState extends State<Register> {
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(), labelText: "Password"),
                     obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please Enter Password';
+                      }
+                      return null;
+                    },
                   ),
                 ],
               ),
