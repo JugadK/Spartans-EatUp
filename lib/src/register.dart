@@ -92,197 +92,45 @@ class _RegisterState extends State<Register> {
       body: Center(
           child: Form(
         key: _registerFormKey,
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: const [
-                SizedBox(
-                  width: 250,
-                ),
-              ],
-            ),
-            GestureDetector(
-              onTap: () async {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const RestaurantLogin(),
-                        fullscreenDialog: true));
-              },
-              child: Container(
-                padding: const EdgeInsets.only(left: 200, top: 50),
-                child: const Text(
-                  " I'm a Restaurant",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Color(0xff000000),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Image(
-              image: AssetImage('assets/EatUp.jpg'),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              children: const [
-                SizedBox(
-                  width: 130,
-                ),
-                Text(
-                  " Registration Page",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Color(0xff000000),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 5, left: 60, right: 60),
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: firstNameEditingController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: "First Name"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter First Name';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: lastNameEditingController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: "Last Name"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter Last Name';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: phoneNumberEditingController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Phone Number"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter Phone Number';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: registrationEmailController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: "E-mail"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter Email';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: registrationPasswordController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: "Password"),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter Password';
-                      }
-                      return null;
-                    },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: const [
+                  SizedBox(
+                    width: 250,
                   ),
                 ],
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            GestureDetector(
-              onTap: () async {
-                // Validate returns true if the form is valid, or false otherwise.
-                if (_registerFormKey.currentState!.validate()) {
-                  registerUser();
-
-                  // If the form is valid, display a snackbar. In the real world,
-                  // you'd often call a server or save the information in a database.
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processing Data')),
-                  );
-                }
-              },
-              child: Container(
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                height: 40,
-                decoration: const BoxDecoration(
-                  color: Color(0xff004aa8),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                    bottomLeft: Radius.circular(12),
-                    bottomRight: Radius.circular(12),
-                  ),
-                ),
+              GestureDetector(
+                onTap: () async {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RestaurantLogin(),
+                          fullscreenDialog: true));
+                },
                 child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        "         Get Started         ",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xffFFFFFF),
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(left: 200, top: 10),
+                  child: const Text(
+                    " I'm a Restaurant",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Color(0xff000000),
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            GestureDetector(
-              onTap: () async {
-                Navigator.pop(context);
-              },
-              child: Row(
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
                 children: const [
                   SizedBox(
-                    width: 100,
+                    width: 130,
                   ),
                   Text(
-                    "Back to Login",
+                    " Registration Page",
                     style: TextStyle(
                       fontSize: 15,
                       color: Color(0xff000000),
@@ -290,8 +138,154 @@ class _RegisterState extends State<Register> {
                   ),
                 ],
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: const EdgeInsets.only(top: 5, left: 60, right: 60),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: firstNameEditingController,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "First Name"),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter First Name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: lastNameEditingController,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: "Last Name"),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Last Name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: phoneNumberEditingController,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Phone Number"),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Phone Number';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: registrationEmailController,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: "E-mail"),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Email';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: registrationPasswordController,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: "Password"),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Password';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  // Validate returns true if the form is valid, or false otherwise.
+                  if (_registerFormKey.currentState!.validate()) {
+                    registerUser();
+
+                    // If the form is valid, display a snackbar. In the real world,
+                    // you'd often call a server or save the information in a database.
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Processing Data')),
+                    );
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                  height: 40,
+                  decoration: const BoxDecoration(
+                    color: Color(0xff004aa8),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
+                    ),
+                  ),
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          "         Get Started         ",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Color(0xffFFFFFF),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  Navigator.pop(context);
+                },
+                child: Row(
+                  children: const [
+                    SizedBox(
+                      width: 100,
+                    ),
+                    Text(
+                      "Back to Login",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Color(0xff000000),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       )),
     );
