@@ -11,7 +11,17 @@ class Student {
   String email;
   List<Order> orders;
 
-  Student({required this.email, required this.orders}) {
+  //
+  String? phoneNumber;
+  String? firstName;
+  String? lastName;
+
+  Student(
+      {required this.email,
+      required this.orders,
+      this.firstName,
+      this.lastName,
+      this.phoneNumber}) {
     if (email.substring(email.length - 9, email.length) != "@sjsu.edu") {
       throw ("Email is not an sjsu email");
     }
@@ -24,7 +34,16 @@ class Student {
     //List<Order> orders = json['orders'];
     String email = json['email'];
 
-    return Student(email: email, orders: orders);
+    String phoneNumber = json['phoneNumber'];
+    String firstName = json['firstName'];
+    String lastName = json['lastName'];
+
+    return Student(
+        email: email,
+        orders: orders,
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber);
   }
 
   /*Student fromJson(Map<String, Object?> json) {
@@ -35,6 +54,12 @@ class Student {
   } */
 
   Map<String, dynamic> toJson() {
-    return {'email': email, 'orders': orders};
+    return {
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      'orders': orders
+    };
   }
 }
