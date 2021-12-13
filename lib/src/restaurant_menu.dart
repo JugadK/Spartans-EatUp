@@ -118,7 +118,7 @@ class _RestaurantMenu extends State<RestaurantMenu> {
     DocumentSnapshot studentSnapshot = await students
         .doc(FirebaseAuth.instance.currentUser!.uid.toString())
         .get();
-
+    print(studentSnapshot.data());
     Student student =
         Student.fromJson(studentSnapshot.data() as Map<String, dynamic>);
     List<Widget> menuData = [];
@@ -150,8 +150,14 @@ class _RestaurantMenu extends State<RestaurantMenu> {
     menuData.add(ElevatedButton(
       child: Text("Remove Last Order"),
       onPressed: () {
-        student.orders.removeLast();
-        removeLastOrder();
+        if (student.orders.isEmpty) {
+        } else {
+          student.orders.removeLast();
+          currentOrders.removeLast();
+        }
+        setState(() {
+          currentOrders = currentOrders;
+        });
       },
     ));
 
@@ -163,14 +169,6 @@ class _RestaurantMenu extends State<RestaurantMenu> {
 
     setState(() {
       menuWidgets = menuData;
-    });
-  }
-
-  void removeLastOrder() {
-    currentOrders.removeLast();
-
-    setState(() {
-      currentOrders = currentOrders;
     });
   }
 
@@ -196,11 +194,15 @@ class _RestaurantMenu extends State<RestaurantMenu> {
   // Code modified from https://firebase.flutter.dev/docs/firestore/usage/
   // If rehauled please remove
   Widget build(BuildContext context) {
+    bool gotOrdersFromDatabase = false;
     if (menuWidgets.isEmpty) {
       getMenu(widget.restaurantName);
     }
-    if (currentOrders.isEmpty) {
+    // This is so we can tell the differene between the user
+    // removing all thier orders and the the data base having no orders stored
+    if (currentOrders.isEmpty && !gotOrdersFromDatabase) {
       getCurrentOrders();
+      gotOrdersFromDatabase = true;
     }
 
     // students.doc(FirebaseAuth.instance.currentUser!.uid.toString()).get(),
