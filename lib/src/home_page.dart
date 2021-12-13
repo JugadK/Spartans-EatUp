@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spartans_eatup/src/account_info.dart';
+import 'package:spartans_eatup/src/restaurant_menu.dart';
 import 'colors.dart' as color;
 
 class HomePage extends StatefulWidget {
@@ -116,9 +117,19 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 padding: const EdgeInsets.only(left: 0, top: 10),
                 child: Stack(
-                  children: const [
-                    Image(image: AssetImage('assets/sm.jpg')),
-                    Text(
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const RestaurantMenu(
+                                        restaurantName: 'Amogus',
+                                      ),
+                                  fullscreenDialog: true));
+                        },
+                        child: const Image(image: AssetImage('assets/sm.jpg'))),
+                    const Text(
                       "  Student Union",
                       style: TextStyle(
                         fontSize: 30,
