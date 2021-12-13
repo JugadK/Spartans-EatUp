@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spartans_eatup/src/constants.dart';
+import 'package:spartans_eatup/src/restaurant_menu.dart';
 import 'colors.dart' as color;
 
 class SearchPage extends StatefulWidget {
@@ -50,8 +51,17 @@ class _SearchPageState extends State<SearchPage> {
     List<Widget> listItems = [];
     responseList.forEach((post) {
       listItems.add(const SizedBox(height: 10));
-      listItems.add(
-        Container(
+      listItems.add(GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => RestaurantMenu(
+                        restaurantName: post,
+                      ),
+                  fullscreenDialog: true));
+        },
+        child: Container(
             width: MediaQuery.of(context).size.width,
             height: 200,
             decoration: const BoxDecoration(
@@ -79,7 +89,7 @@ class _SearchPageState extends State<SearchPage> {
                 ],
               ),
             )),
-      );
+      ));
     });
 
     setState(() {
