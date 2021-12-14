@@ -261,15 +261,17 @@ class _RestaurantMenu extends State<RestaurantMenu> {
                     color: Color(0xFFFFFFFF),
                   )),
             ),
+
             Expanded(
-                child: GridView.count(
+                child: Material(
+                    child: GridView.count(
               //padding: const EdgeInsets.all(1),
               primary: false,
               physics: const ScrollPhysics(),
               shrinkWrap: true,
               children: menuWidgets,
               crossAxisCount: 2,
-            ))
+            )))
           ],
         ));
   }
