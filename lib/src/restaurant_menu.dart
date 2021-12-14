@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,6 +12,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spartans_eatup/src/models/order.dart';
 import 'package:spartans_eatup/src/models/student.dart';
+
+import 'package:get/get.dart';
+import 'package:spartans_eatup/src/cart_controller.dart';
 
 class RestaurantMenu extends StatefulWidget {
   final String restaurantName;
@@ -31,6 +33,7 @@ class _RestaurantMenu extends State<RestaurantMenu> {
       FirebaseFirestore.instance.collection('students');
   CollectionReference restaurants =
       FirebaseFirestore.instance.collection('restaurants');
+  final cartController = Get.put(CartController());
 
   Future<void> writeOrders(List<Order> orders) async {
     List<dynamic> order = [];
@@ -141,14 +144,16 @@ class _RestaurantMenu extends State<RestaurantMenu> {
     if (snapshot.docs.isNotEmpty) {
       List<dynamic> responseJson = snapshot.docs.first.get("menu");
       for (var element in responseJson) {
-        if (element["onCurrentMenu"]) {
-          menu.add(Order.fromJson(element));
-        }
+        menu.add(Order.fromJson(element));
       }
 
       menu.forEach((element) async {
+        var link =
+            "https://firebasestorage.googleapis.com/v0/b/spartans-eatup.appspot.com/o/rice.jpg?alt=media&token=14d5b354-5d05-450b-ad5e-d64b81df0c7b";
+
         menuData.add(GestureDetector(
             onTap: () async {
+              cartController.addOrder(element);
               student.orders.add(element);
               addOrderWidget(element);
 
