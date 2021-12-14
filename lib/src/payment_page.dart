@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'my_card.dart';
 
 
 class PaymentPage extends StatefulWidget {
@@ -19,7 +20,14 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar
-      (title: Text('Payment Page'),),
+      (title: Text('Payment Page'),
+      leading: IconButton(icon: Icon(Icons.navigate_before),
+      onPressed: (){
+        Navigator.push(context, 
+        MaterialPageRoute(builder: (context) => MyCard()));
+      },
+      ),
+      ),
       body: Column(children: [
         SizedBox(height:600,width: 150,),
           Container(

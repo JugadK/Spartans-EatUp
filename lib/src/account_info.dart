@@ -4,6 +4,7 @@ import 'package:spartans_eatup/src/constants.dart';
 import 'package:spartans_eatup/src/home_page.dart';
 import 'package:spartans_eatup/src/login.dart';
 import 'package:spartans_eatup/src/navbar.dart';
+import 'my_card.dart';
 import 'colors.dart' as color;
 
 class Account extends StatefulWidget {
@@ -48,6 +49,16 @@ class _AccountState extends State<Account> {
         MaterialPageRoute(
             builder: (context) => const Login(), fullscreenDialog: true));
   }
+
+  void PaymentMethod(){
+    Navigator.push(context,
+    MaterialPageRoute(builder: (context)=> MyCard(), fullscreenDialog: true ));
+  }
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -286,7 +297,7 @@ class _AccountState extends State<Account> {
                       Icons.navigate_next,
                       size: 35.0,
                     ),
-                    onPressed: navigateToPayment,
+                    onPressed: PaymentMethod,
                   )
                 ],
               ),
