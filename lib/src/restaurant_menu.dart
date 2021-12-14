@@ -1,4 +1,9 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:spartans_eatup/main.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +23,7 @@ class RestaurantMenu extends StatefulWidget {
 }
 
 class _RestaurantMenu extends State<RestaurantMenu> {
+  bool gotOrdersFromDatabase = false;
   List<Widget> menuWidgets = [];
   List<Widget> currentOrders = [];
   CollectionReference students =
@@ -114,32 +120,61 @@ class _RestaurantMenu extends State<RestaurantMenu> {
     });
   }
 
+  // Retrieves the menu from firebase and turns it into widgets we can
+  // display
   Future<void> getMenu(String restaurantName) async {
     DocumentSnapshot studentSnapshot = await students
         .doc(FirebaseAuth.instance.currentUser!.uid.toString())
         .get();
-    print(studentSnapshot.data());
+
     Student student =
         Student.fromJson(studentSnapshot.data() as Map<String, dynamic>);
+
     List<Widget> menuData = [];
     List<Order> menu = [];
+
     QuerySnapshot snapshot =
         await restaurants.where('name', isEqualTo: widget.restaurantName).get();
 
+    print(snapshot.docs.first.data());
     if (snapshot.docs.isNotEmpty) {
       List<dynamic> responseJson = snapshot.docs.first.get("menu");
       for (var element in responseJson) {
         menu.add(Order.fromJson(element));
       }
 
-      menu.forEach((element) {
-        menuData.add(ElevatedButton(
-          child: Text("Add " + element.name + " \$" + element.price.toString()),
-          onPressed: () {
-            student.orders.add(element);
-            addOrderWidget(element);
-          },
-        ));
+      menu.forEach((element) async {
+        var link =
+            "https://firebasestorage.googleapis.com/v0/b/spartans-eatup.appspot.com/o/rice.jpg?alt=media&token=14d5b354-5d05-450b-ad5e-d64b81df0c7b";
+
+        menuData.add(GestureDetector(
+            onTap: () async {
+              student.orders.add(element);
+              addOrderWidget(element);
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Added")),
+              );
+            },
+            child: Column(children: [
+              Container(
+                child: CircleAvatar(
+                  radius: 80,
+                  backgroundColor: Colors.grey,
+                  backgroundImage: NetworkImage(element.picture),
+                ),
+              ),
+              Container(
+                  height: 20,
+                  child: Text(
+                    element.toString(),
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff000000),
+                    ),
+                  ))
+            ])));
       });
 
       //  menu.add(Order.fromJson(element))
@@ -147,7 +182,7 @@ class _RestaurantMenu extends State<RestaurantMenu> {
       print("Restaurant Name does not exist");
     }
 
-    menuData.add(ElevatedButton(
+    /*menuData.add(ElevatedButton(
       child: Text("Remove Last Order"),
       onPressed: () {
         if (student.orders.isEmpty) {
@@ -165,7 +200,7 @@ class _RestaurantMenu extends State<RestaurantMenu> {
         onPressed: () {
           writeOrders(student.orders);
         },
-        child: Text("Apply Changes")));
+        child: Text("Apply Changes"))); */
 
     setState(() {
       menuWidgets = menuData;
@@ -194,13 +229,14 @@ class _RestaurantMenu extends State<RestaurantMenu> {
   // Code modified from https://firebase.flutter.dev/docs/firestore/usage/
   // If rehauled please remove
   Widget build(BuildContext context) {
-    bool gotOrdersFromDatabase = false;
     if (menuWidgets.isEmpty) {
+      print("hello");
       getMenu(widget.restaurantName);
     }
     // This is so we can tell the differene between the user
     // removing all thier orders and the the data base having no orders stored
     if (currentOrders.isEmpty && !gotOrdersFromDatabase) {
+      print("hello2");
       getCurrentOrders();
       gotOrdersFromDatabase = true;
     }
@@ -208,46 +244,35 @@ class _RestaurantMenu extends State<RestaurantMenu> {
     // students.doc(FirebaseAuth.instance.currentUser!.uid.toString()).get(),
 
     return Container(
-        padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
-        color: Color(0xffFFFFFF),
-        child: SingleChildScrollView(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Column(
-            children: currentOrders,
-          ),
+        color: Color(0xFFFFFFFF),
+        child: Column(
+          children: [
+            //  Container(
+            // height: 140,
 
-          Column(children: menuWidgets),
-          //Text(student.orders.toString()),
+            Container(
+              padding: const EdgeInsets.only(left: 10, top: 80),
+              height: 140,
+              width: MediaQuery.of(context).size.width,
+              color: const Color(0xff663eb6),
+              child: Text(widget.restaurantName,
+                  style: const TextStyle(
+                    decoration: TextDecoration.none,
+                    color: Color(0xFFFFFFFF),
+                  )),
+            ),
 
-          /*
-                ElevatedButton(
-                    onPressed: () {
-                      //
-                      // Here we add the order to the array orders
-                      // This will be used for telling the restaurant what to m
-                      // make
-                      //
-                      // we can manipulate this student object
-                      // before we actually write to the database, letting the
-                      // UI add and remove orders before writing
-                      //
-
-                      student.orders.add(Order(
-                          name: "Rice",
-                          price: Decimal.parse("22.99"),
-                          restaurant: "Amogus"));
-
-                      //
-                      // writeOrders will actually write the orders to the database
-                      // this will only change the orders array
-                      //
-
-                      writeOrders(student.orders);
-                      print(student.orders);
-                    },
-                    
-                    child: Text("Rice")),*/
-        ])));
+            Expanded(
+                child: Material(
+                    child: GridView.count(
+              //padding: const EdgeInsets.all(1),
+              primary: false,
+              physics: const ScrollPhysics(),
+              shrinkWrap: true,
+              children: menuWidgets,
+              crossAxisCount: 2,
+            )))
+          ],
+        ));
   }
 }
