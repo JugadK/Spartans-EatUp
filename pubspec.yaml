@@ -42,16 +42,9 @@ dependencies:
   flutter_stripe: ^2.0.2
   http: ^0.13.4
   flutter_credit_card: ^3.0.1
-
-  
-<<<<<<< HEAD
-
-=======
   firebase_storage: ^10.2.3
 
-
-
->>>>>>> b63d347ac386ccd61c65a0d770e12cbb9c03cdf5
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
