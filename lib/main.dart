@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'src/navbar.dart';
-
+import 'package:get/get.dart';
 void main() async {
   //TODO Use future builder so that APP UI builds before Firebase initializes
 
@@ -27,7 +27,7 @@ void main() async {
     }
   });
 
-  runApp(const MyApp());
+ runApp(GetMaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
