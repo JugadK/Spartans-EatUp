@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -140,13 +141,12 @@ class _RestaurantMenu extends State<RestaurantMenu> {
     if (snapshot.docs.isNotEmpty) {
       List<dynamic> responseJson = snapshot.docs.first.get("menu");
       for (var element in responseJson) {
-        menu.add(Order.fromJson(element));
+        if (element["onCurrentMenu"]) {
+          menu.add(Order.fromJson(element));
+        }
       }
 
       menu.forEach((element) async {
-        var link =
-            "https://firebasestorage.googleapis.com/v0/b/spartans-eatup.appspot.com/o/rice.jpg?alt=media&token=14d5b354-5d05-450b-ad5e-d64b81df0c7b";
-
         menuData.add(GestureDetector(
             onTap: () async {
               student.orders.add(element);

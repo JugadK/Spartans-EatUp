@@ -32,6 +32,11 @@ class Restaurant {
   }
 
   Map<String, dynamic> toJson() {
-    return {'name': name, 'email': email, 'current': currentOrderUsers};
+    return {
+      'name': name,
+      'email': email,
+      'current': currentOrderUsers,
+      'menu': menu
+    };
   }
 }
