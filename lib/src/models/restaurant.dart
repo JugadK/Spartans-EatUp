@@ -32,11 +32,21 @@ class Restaurant {
   }
 
   Map<String, dynamic> toJson() {
+    print(this);
+    List<dynamic> menuJson = [];
+    List<dynamic> currentOrdersJson = [];
+    for (Order order in menu) {
+      menuJson.add(order.toJson());
+    }
+    for (String id in currentOrderUsers) {
+      currentOrdersJson.add(id);
+    }
+
     return {
       'name': name,
       'email': email,
-      'current': currentOrderUsers,
-      'menu': menu
+      'currentOrderUsers': currentOrdersJson,
+      'menu': menuJson
     };
   }
 }
