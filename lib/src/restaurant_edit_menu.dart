@@ -90,11 +90,11 @@ class _RestaurantEditMenu extends State<RestaurantEditMenu> {
       List<dynamic> responseJson = snapshot.docs.first.get("menu");
       for (var element in responseJson) {
         menu.add(Order.fromJson(element));
-        menu.last.tags.forEach((tag) {
-          if (!responseFilters.contains(tag)) {
-            responseFilters.add(tag);
-          }
-        });
+        //menu.last.tags.forEach((tag) {
+        //  if (!responseFilters.contains(tag)) {
+        //     responseFilters.add(tag);
+        //   }
+        // });
       }
     } else {
       print("Restaurant Name does not exist");
