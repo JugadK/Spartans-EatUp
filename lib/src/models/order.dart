@@ -23,7 +23,7 @@ class Order {
 
   bool onCurrentMenu;
 
-  List<dynamic> tags = [];
+  //List<dynamic> tags = [];
 
   Order({
     required this.name,
@@ -31,7 +31,7 @@ class Order {
     required this.restaurant,
     required this.picture,
     required this.onCurrentMenu,
-    required this.tags,
+    //required this.tags,
   });
 
   @override
@@ -41,12 +41,13 @@ class Order {
 
   Order.fromJson(Map<String, dynamic?> json)
       : this(
-            name: json['name']! as String,
-            price: Decimal.parse(json['price'].toString()),
-            restaurant: json['restaurant']! as String,
-            picture: json['picture']! as String,
-            onCurrentMenu: json['onCurrentMenu']! as bool,
-            tags: json['tags']! as List<dynamic>);
+          name: json['name']! as String,
+          price: Decimal.parse(json['price'].toString()),
+          restaurant: json['restaurant']! as String,
+          picture: json['picture']! as String,
+          onCurrentMenu: json['onCurrentMenu']! as bool,
+          // tags: json['tags']! as List<dynamic>
+        );
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -54,6 +55,6 @@ class Order {
         'restaurant': restaurant,
         'picture': picture,
         'onCurrentMenu': onCurrentMenu,
-        'tags': tags,
+        //  'tags': tags,
       };
 }
