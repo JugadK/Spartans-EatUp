@@ -25,6 +25,27 @@ class MyBag extends StatefulWidget {
   _MyBag createState() => _MyBag();
 }
 
+Future<void> sendOrderToRestaurant(String restaurantName) async {
+  CollectionReference restaurants =
+      FirebaseFirestore.instance.collection('restaurants');
+  QuerySnapshot snapshot = await restaurants
+      .where('name', isEqualTo: restaurantName)
+      .where('currentOrderUsers',
+          whereNotIn: [FirebaseAuth.instance.currentUser!.uid]).get();
+
+  print("pfkladf");
+  if (snapshot.docs.isNotEmpty) {
+    for (var element in snapshot.docs) {
+      element.reference.update({
+        "currentOrderUsers":
+            FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
+      });
+    }
+  } else {
+    print("User already has order in restaurant");
+  }
+}
+
 class _MyBag extends State<MyBag> {
 //
   bool gotOrdersFromDatabase = false;
@@ -38,8 +59,9 @@ class _MyBag extends State<MyBag> {
 
   Future<void> writeOrders(RxMap<dynamic, dynamic> orders) async {
     List<dynamic> order = [];
-    for (var element in orders.keys) {
+    for (Order element in orders.keys) {
       order.add(element.toJson());
+      sendOrderToRestaurant(element.restaurant);
     }
 
     //await sendOrderToRestaurant();
