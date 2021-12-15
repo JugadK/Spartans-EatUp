@@ -59,7 +59,7 @@ class _RestaurantDashboard extends State<RestaurantDashboard> {
 
   // Change the current List of users that have orders with the restaruant
 
-  Future<void> writeRestaurantOrders(Restaurant res) async {
+  Future<void> writeRestaurantOrders(Restaurant res, String id) async {
     CollectionReference restaurants =
         FirebaseFirestore.instance.collection('restaurants');
 
@@ -68,6 +68,8 @@ class _RestaurantDashboard extends State<RestaurantDashboard> {
     await restaurants
         .doc(FirebaseAuth.instance.currentUser!.uid.toString())
         .set(res.toJson());
+
+    await students.doc(id).update({"orders": []});
 
     setState(() {});
   }
@@ -131,10 +133,13 @@ class _RestaurantDashboard extends State<RestaurantDashboard> {
                           children: [
                             ElevatedButton(
                                 onPressed: () {
+                                  String studentDocId = currentRestaruant
+                                      .currentOrderUsers[currentStudentIndex];
                                   currentRestaruant.currentOrderUsers
                                       .removeAt(currentStudentIndex);
 
-                                  writeRestaurantOrders(currentRestaruant);
+                                  writeRestaurantOrders(
+                                      currentRestaruant, studentDocId);
                                   ;
                                 },
                                 child: Text("Complete Order"))
