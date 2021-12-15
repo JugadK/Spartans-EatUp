@@ -117,6 +117,11 @@ class _MyBag extends State<MyBag> {
                 ElevatedButton(
                   onPressed: () {
                     writeOrders(cartController.orders);
+                    cartController.clearAllOrders();
+                    Get.snackbar(
+                        "Checkout Successful", "Your order is now in process",
+                        snackPosition: SnackPosition.TOP,
+                        duration: Duration(seconds: 2));
                   },
                   child: const Text("Checkout"),
                 ),
