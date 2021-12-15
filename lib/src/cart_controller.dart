@@ -37,4 +37,8 @@ class CartController extends GetxController {
       _orders[order] -= 1;
     }
   }
+  
+    void clearAllOrders() {
+    _orders.clear();
+  }
 }
