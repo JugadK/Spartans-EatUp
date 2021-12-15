@@ -7,6 +7,7 @@ import 'my_card.dart';
 
 
 class PaymentPage extends StatefulWidget {
+
   PaymentPage({Key? key}) : super(key: key);
 
   @override
@@ -15,9 +16,16 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   Map<String, dynamic>? paymentIntentData;
+      String bill_amount = '10';
+    String current_payment = '10';
 
   @override
   Widget build(BuildContext context) {
+
+    
+
+
+
     return Scaffold(
       appBar: AppBar
       (title: Text('Payment Page'),
@@ -32,7 +40,7 @@ class _PaymentPageState extends State<PaymentPage> {
         SizedBox(height:600,width: 150,),
           Container(
           child: Center(
-            child: Text('Amount: 10 \$',style:TextStyle(fontSize: 22),)
+            child: Text('Amount: ' + bill_amount + '\$',style:TextStyle(fontSize: 22),)
             ),),
           SizedBox(height: 20,width: 20,),
         //   CardField(
@@ -72,7 +80,7 @@ class _PaymentPageState extends State<PaymentPage> {
     try {
 
       paymentIntentData =
-      await createPaymentIntent('10', 'USD'); 
+      await createPaymentIntent( current_payment, 'USD'); 
       await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
               paymentIntentClientSecret: paymentIntentData!['client_secret'],
@@ -128,7 +136,7 @@ class _PaymentPageState extends State<PaymentPage> {
   createPaymentIntent(String amount, String currency) async {
     try {
       Map<String, dynamic> body = {
-        'amount': calculateAmount('10'),
+        'amount': calculateAmount(current_payment),
         'currency': currency,
         'payment_method_types[]': 'card'
       };

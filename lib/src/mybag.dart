@@ -17,6 +17,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:spartans_eatup/src/cart_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spartans_eatup/src/models/order.dart';
+import 'payment_page.dart';
 
 class MyBag extends StatefulWidget {
   const MyBag({Key? key}) : super(key: key);
@@ -144,6 +145,7 @@ class _MyBag extends State<MyBag> {
                         "Checkout Successful", "Your order is now in process",
                         snackPosition: SnackPosition.TOP,
                         duration: Duration(seconds: 2));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentPage()));
                   },
                   child: const Text("Checkout"),
                 ),
