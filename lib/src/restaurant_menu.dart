@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:spartans_eatup/main.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +127,7 @@ class _RestaurantMenu extends State<RestaurantMenu> {
 
   // Retrieves the menu from firebase and turns it into widgets we can
   // display
-  Future<void> getMenu(String restaurantName) async {
+  Future<void> getMenu(String restaurantName, String search) async {
     DocumentSnapshot studentSnapshot = await students
         .doc(FirebaseAuth.instance.currentUser!.uid.toString())
         .get();
@@ -148,38 +149,45 @@ class _RestaurantMenu extends State<RestaurantMenu> {
       }
 
       menu.forEach((element) async {
-        var link =
-            "https://firebasestorage.googleapis.com/v0/b/spartans-eatup.appspot.com/o/rice.jpg?alt=media&token=14d5b354-5d05-450b-ad5e-d64b81df0c7b";
+        if (element.name.substring(
+                  0,
+                  search.length,
+                ) ==
+                search ||
+            search == "") {
+          var link =
+              "https://firebasestorage.googleapis.com/v0/b/spartans-eatup.appspot.com/o/rice.jpg?alt=media&token=14d5b354-5d05-450b-ad5e-d64b81df0c7b";
 
-        menuData.add(GestureDetector(
-            onTap: () async {
-              cartController.addOrder(element);
-              student.orders.add(element);
-              addOrderWidget(element);
+          menuData.add(GestureDetector(
+              onTap: () async {
+                cartController.addOrder(element);
+                student.orders.add(element);
+                addOrderWidget(element);
 
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Added")),
-              );
-            },
-            child: Column(children: [
-              Container(
-                child: CircleAvatar(
-                  radius: 80,
-                  backgroundColor: Colors.grey,
-                  backgroundImage: NetworkImage(element.picture),
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Added")),
+                );
+              },
+              child: Column(children: [
+                Container(
+                  child: CircleAvatar(
+                    radius: 80,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: NetworkImage(element.picture),
+                  ),
                 ),
-              ),
-              Container(
-                  height: 20,
-                  child: Text(
-                    element.toString(),
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xff000000),
-                    ),
-                  ))
-            ])));
+                Container(
+                    height: 20,
+                    child: Text(
+                      element.toString(),
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xff000000),
+                      ),
+                    ))
+              ])));
+        } else {}
       });
 
       //  menu.add(Order.fromJson(element))
@@ -236,7 +244,7 @@ class _RestaurantMenu extends State<RestaurantMenu> {
   Widget build(BuildContext context) {
     if (menuWidgets.isEmpty) {
       print("hello");
-      getMenu(widget.restaurantName);
+      getMenu(widget.restaurantName, "");
     }
     // This is so we can tell the differene between the user
     // removing all thier orders and the the data base having no orders stored
@@ -265,6 +273,11 @@ class _RestaurantMenu extends State<RestaurantMenu> {
                     decoration: TextDecoration.none,
                     color: Color(0xFFFFFFFF),
                   )),
+            ),
+            CupertinoSearchTextField(
+              onSubmitted: (value) {
+                getMenu(widget.restaurantName, value);
+              },
             ),
 
             Expanded(
