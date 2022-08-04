@@ -1,7 +1,5 @@
 # Spartans Eatup
 
-We should have started this earlier
-
 # How to run 
 
 ## Command line
@@ -16,13 +14,6 @@ If your running it through the commandline make sure to run
 to get all the packages, you can then run
 
 ```flutter run``` 
-
-and it should run fine
-
-## Android Studio
-
-Idk fuck around with the UI
-If anyone uses this please update the README
 
 # Test restaurant login info
   email : amogus@food.com
